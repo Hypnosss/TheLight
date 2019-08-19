@@ -131,15 +131,25 @@ function light(x, y) {
   
         ctx2.fillStyle = "red";
         ctx2.beginPath();
-        ctx2.moveTo(points[1].inside.x, points[1].inside.y);
-        ctx2.lineTo(points[0].inside.x, points[0].inside.y);
-        ctx2.lineTo(points[2].inside.x, points[2].inside.y);
-  
-        ctx2.lineTo(points[2].outside.x, points[2].outside.y);
-        ctx2.lineTo(points[3].outside.x, points[3].outside.y);
-        ctx2.lineTo(points[1].outside.x, points[1].outside.y);
-  
-        ctx2.lineTo(points[1].inside.x, points[1].inside.y);
+        
+        // console.log(block)
+        if(y > corners.topLeft.y && y < corners.bottomRight.y || x > corners.topLeft.x && x < corners.bottomRight.x) {
+          ctx2.moveTo(points[0].inside.x, points[0].inside.y);
+          ctx2.lineTo(points[0].outside.x, points[0].outside.y);
+          ctx2.lineTo(points[3].outside.x, points[3].outside.y);
+          ctx2.lineTo(points[1].outside.x, points[1].outside.y);
+          ctx2.lineTo(points[1].inside.x, points[1].inside.y);
+          ctx2.lineTo(points[0].inside.x, points[0].inside.y);
+        } else {
+          ctx2.moveTo(points[1].inside.x, points[1].inside.y);
+          ctx2.lineTo(points[0].inside.x, points[0].inside.y);
+          ctx2.lineTo(points[2].inside.x, points[2].inside.y);
+          ctx2.lineTo(points[2].outside.x, points[2].outside.y);
+          ctx2.lineTo(points[3].outside.x, points[3].outside.y);
+          ctx2.lineTo(points[1].outside.x, points[1].outside.y);
+          ctx2.lineTo(points[1].inside.x, points[1].inside.y);
+        }
+        // ctx2.stroke();
         ctx2.fill();
       } 
     }
