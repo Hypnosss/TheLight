@@ -2,29 +2,36 @@ var canvas1 = document.getElementById("canvas1");
 var ctx1 = canvas1.getContext("2d");
 var canvas2 = document.getElementById("canvas2");
 var ctx2 = canvas2.getContext("2d");
-const rowLength = 16;
-const columnLength = 16;
-const lightRadius = 600;
+
+const rowLength = 10;
+const columnLength = 17;
+let lightRadius = 600;
+let canvasWidth = 800;
+let canvasHeight = 800;
+let blockWidth = canvasWidth / rowLength;
+let blockHeight = canvasHeight / columnLength;
 
 //canvas1在下面 用来绘制letters
 
+//16*16
 var str = `\
------BBBBBB-----\
--------BB-------\
--------BB-------\
--------BB-------\
-----------------\
------BBBBBB-----\
------B----B-----\
------BBBBBB-----\
------B----------\
------B----------\
-----------------\
------BBBBBB-----\
------B----B-----\
------BBBBBB-----\
------B----------\
------B----------`;
+--BBBBBB--\
+----BB----\
+----BB----\
+----BB----\
+----BB----\
+----------\
+--BBBBBB--\
+--B----B--\
+--BBBBBB--\
+--B-------\
+--B-------\
+----------\
+--BBBBBB--\
+--B----B--\
+--BBBBBB--\
+--B-------\
+--B-------`;
 
 var blocks = []; //where the light is unable to through
 
@@ -36,7 +43,7 @@ drawBackground();
 // ctx2.fillRect(200,200,5,5);
 
 canvas2.onmousemove = function(e) {
-  ctx2.clearRect(0, 0, 800, 800);
+  ctx2.clearRect(0, 0, canvasWidth, canvasHeight);
   light(e.offsetX, e.offsetY);
 }
 
@@ -83,16 +90,16 @@ function light(x, y) {
     
     // console.log(block + "!")
     let corners = {
-      topLeft: {x: block[0] * 50, y: block[1] * 50},
-      topRight: {x: (block[0]+1) * 50, y: block[1] * 50},
-      bottomLeft: {x: block[0] * 50, y: (block[1]+1) * 50},
-      bottomRight: {x: (block[0]+1) * 50, y: (block[1]+1) * 50},
+      topLeft: {x: block[0] * blockWidth, y: block[1] * blockHeight},
+      topRight: {x: (block[0]+1) * blockWidth, y: block[1] * blockHeight},
+      bottomLeft: {x: block[0] * blockWidth, y: (block[1]+1) * blockHeight},
+      bottomRight: {x: (block[0]+1) * blockWidth, y: (block[1]+1) * blockHeight},
     };
     // console.log(corners)
-    if(x > block[0] * 50 && x < (block[0] + 1) * 50 && y > block[1] * 50 && y < (block[1] + 1) * 50) {
+    if(x > block[0] * blockWidth && x < (block[0] + 1) * blockWidth && y > block[1] * blockHeight && y < (block[1] + 1) * blockHeight) {
       // console.log(1)
       ctx2.globalCompositeOperation = "destination-out";
-      ctx2.fillRect(0, 0, 800, 800);
+      ctx2.fillRect(0, 0, canvasWidth, canvasHeight);
       break;
     } else {
       let points = [];
@@ -160,7 +167,7 @@ function light(x, y) {
 //工具人
 function drawBackgroundBlock(x, y, color) {
    ctx1.fillStyle = color;
-   ctx1.fillRect(x*50, y*50, 50, 50);
+   ctx1.fillRect(x*blockWidth, y*blockHeight, blockWidth, blockHeight);
 }
 
 function calDis(x1, y1, x2, y2) {
